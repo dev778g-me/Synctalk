@@ -15,6 +15,7 @@ class MyTextfield extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      style: TextStyle(color: Theme.of(context).colorScheme.primaryFixed),
       decoration: InputDecoration(
           prefixIcon: leading,
           labelText: labeltext,
