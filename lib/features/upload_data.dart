@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class UploadData {
   final FirebaseStorage _storage = FirebaseStorage.instance;
-  uploaddata(String name, String about, String uid) async {
+  uploaddata(String name, String about, String uid, String imageurl) async {
     if (name.isEmpty || about.isEmpty) {
       print("please fill name ad abot");
     } else {
@@ -14,6 +14,7 @@ class UploadData {
           "name": name,
           "about": about,
           "uid": uid,
+          "imageurl": imageurl,
           "updated_at": FieldValue.serverTimestamp()
         }, SetOptions(merge: true));
       } catch (e) {}
@@ -37,6 +38,20 @@ class UploadData {
     } catch (e) {
       print("Error uploading image: ${e.toString()}");
       return null; // Return null if there's an error
+    }
+  }
+
+  updatadata(String name, String about, String uid) async {
+    if (name.isEmpty || about.isEmpty) {
+      print("please fill name ad abot");
+    } else {
+      try {
+        await FirebaseFirestore.instance.collection("users").doc(uid).set({
+          "name": name,
+          "about": about,
+          "updated_at": FieldValue.serverTimestamp()
+        }, SetOptions(merge: true));
+      } catch (e) {}
     }
   }
 }

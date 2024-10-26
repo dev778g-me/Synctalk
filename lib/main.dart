@@ -1,9 +1,11 @@
 import 'package:chat/authentication/wrapper.dart';
+import 'package:chat/provider/userdataprovider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // Your container screen import
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 // Import your color schemes
 import 'themes/themes.dart'; // Assuming the ColorScheme definitions are here
@@ -19,7 +21,14 @@ void main() async {
           [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((_) async {
     await Firebase.initializeApp();
-    runApp(const ChatApp());
+    runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => UserProvider(),
+        )
+      ],
+      child: ChatApp(),
+    ));
   });
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(

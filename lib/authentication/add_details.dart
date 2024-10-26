@@ -89,7 +89,7 @@ class _AddDetailsState extends State<AddDetails> {
                   labeltext: "About",
                   controller: aboutcontroller,
                   leading: const Icon(Iconsax.information)),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SizedBox(
@@ -101,8 +101,8 @@ class _AddDetailsState extends State<AddDetails> {
                       final imageUrl =
                           await UploadData().uploadImage(selectedimage!, uid);
                       if (imageUrl != null) {
-                        await UploadData().uploaddata(
-                            namecontroller.text, aboutcontroller.text, uid);
+                        await UploadData().uploaddata(namecontroller.text,
+                            aboutcontroller.text, uid, imageUrl);
                         // Save `imageUrl` to Firestore here as needed
                       } else {
                         print("Error: Image URL is null");
@@ -110,11 +110,13 @@ class _AddDetailsState extends State<AddDetails> {
                     } else {
                       print("Please select an image");
                     }
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Wrapper()));
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Wrapper()));
                   },
-                  label: Text("Continue"),
-                  icon: Icon(Iconsax.activity),
+                  label: const Text("Continue"),
+                  icon: const Icon(Iconsax.activity),
                 ),
               ),
             ],
