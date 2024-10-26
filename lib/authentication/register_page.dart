@@ -1,6 +1,6 @@
+import 'package:chat/authentication/add_details.dart';
 import 'package:chat/authentication/authservice.dart';
 import 'package:chat/authentication/login_screen.dart';
-import 'package:chat/authentication/wrapper.dart';
 import 'package:chat/widgets/my_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,7 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
       HapticFeedback.lightImpact();
 
       await Authservice()
-          .craeteaccount(emailcontroller.text, passwordcontroller.text);
+          .createaccount(emailcontroller.text, passwordcontroller.text);
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Created Account Successfully"),
         behavior: SnackBarBehavior.floating,
@@ -37,7 +37,7 @@ class _RegisterPageState extends State<RegisterPage> {
         showCloseIcon: true,
       ));
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const Wrapper()));
+          MaterialPageRoute(builder: (context) => const AddDetails()));
     } else if (passwordcontroller.text != confirmpasswordcontroller.text) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text(

@@ -10,11 +10,17 @@ import 'themes/themes.dart'; // Assuming the ColorScheme definitions are here
 
 void main() async {
   await WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+
   SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.edgeToEdge,
     overlays: [SystemUiOverlay.top],
   );
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+      .then((_) async {
+    await Firebase.initializeApp();
+    runApp(const ChatApp());
+  });
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -22,8 +28,6 @@ void main() async {
     systemNavigationBarColor: Colors.transparent,
     systemNavigationBarIconBrightness: Brightness.light,
   ));
-
-  runApp(const ChatApp());
 }
 
 class ChatApp extends StatelessWidget {
@@ -45,7 +49,7 @@ class ChatApp extends StatelessWidget {
 
       themeMode:
           ThemeMode.system, // Automatically switch based on system setting
-      home: Wrapper(),
+      home: const Wrapper(),
     );
   }
 }

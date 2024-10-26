@@ -33,6 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           ListTile(
             onTap: () {},
+            subtitle: const Text("about "),
             leading: const CircleAvatar(
               radius: 30,
               backgroundImage: NetworkImage(
