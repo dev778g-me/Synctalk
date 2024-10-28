@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:chat/authentication/authservice.dart';
-import 'package:chat/data/getdata.dart';
 import 'package:chat/features/upload_data.dart';
 import 'package:chat/pages/settings_screen/apprence_screen.dart';
 import 'package:chat/provider/userdataprovider.dart';
@@ -51,7 +50,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           return null;
         }
       } catch (e) {
-        print(e.toString());
+        debugPrint(e.toString());
         return null;
       }
     }
@@ -113,14 +112,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     MyTextfield(
                                         labeltext: "Name",
                                         controller: namecontroller,
-                                        leading: Icon(Iconsax.user)),
+                                        leading: const Icon(Iconsax.user)),
                                     Container(
                                       height: 20,
                                     ),
                                     MyTextfield(
                                         labeltext: "About",
                                         controller: aboutcontroller,
-                                        leading: Icon(Iconsax.information))
+                                        leading:
+                                            const Icon(Iconsax.information))
                                   ],
                                 ),
                                 actions: [
@@ -172,7 +172,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ApprenceScreen()));
+                              builder: (context) => const ApprenceScreen()));
                     },
                     leading: const Icon(Iconsax.teacher),
                     title: const Text("Apprence"),
@@ -194,7 +194,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   ListTile(
                     onTap: () {
-                      Authservice().logout();
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: Text(
+                              "Log Out",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary),
+                            ),
+                            content: Text(
+                              "Do You Want To LogOut",
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.primary),
+                            ),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("No")),
+                              TextButton(
+                                  onPressed: () {
+                                    Authservice().logout();
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text(
+                                    "Yes",
+                                    style: TextStyle(color: Colors.red),
+                                  ))
+                            ],
+                          );
+                        },
+                      );
                     },
                     leading: const Icon(Iconsax.logout),
                     title: const Text(

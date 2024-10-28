@@ -18,6 +18,7 @@ class AddDetails extends StatefulWidget {
 class _AddDetailsState extends State<AddDetails> {
   final namecontroller = TextEditingController();
   final aboutcontroller = TextEditingController();
+  final phonecontroller = TextEditingController();
   DateTime firstDate = DateTime(2000, 1, 1);
   DateTime lastDate = DateTime(2100, 12, 31);
   bool isloading = false;
@@ -39,7 +40,7 @@ class _AddDetailsState extends State<AddDetails> {
         return null;
       }
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
       return null;
     }
   }
@@ -60,10 +61,10 @@ class _AddDetailsState extends State<AddDetails> {
                     backgroundImage: selectedimage != null
                         ? FileImage(selectedimage!)
                         : null,
+                    radius: 80,
                     child: selectedimage == null
                         ? const Icon(Icons.person, size: 60)
                         : null,
-                    radius: 80,
                   ),
                   Positioned(
                       bottom: 0,
@@ -85,6 +86,22 @@ class _AddDetailsState extends State<AddDetails> {
               const SizedBox(
                 height: 20,
               ),
+              TextField(
+                keyboardType: TextInputType.phone,
+                maxLength: 10,
+                controller: phonecontroller,
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                decoration: InputDecoration(
+                    counterText: '',
+                    labelText: "Phone Number",
+                    labelStyle:
+                        TextStyle(color: Theme.of(context).colorScheme.primary),
+                    border: const OutlineInputBorder(),
+                    prefixIcon: const Icon(Iconsax.call)),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               MyTextfield(
                   labeltext: "About",
                   controller: aboutcontroller,
@@ -101,14 +118,18 @@ class _AddDetailsState extends State<AddDetails> {
                       final imageUrl =
                           await UploadData().uploadImage(selectedimage!, uid);
                       if (imageUrl != null) {
-                        await UploadData().uploaddata(namecontroller.text,
-                            aboutcontroller.text, uid, imageUrl);
+                        await UploadData().uploaddata(
+                            namecontroller.text,
+                            aboutcontroller.text,
+                            uid,
+                            imageUrl,
+                            phonecontroller.text);
                         // Save `imageUrl` to Firestore here as needed
                       } else {
-                        print("Error: Image URL is null");
+                        debugPrint("Error: Image URL is null");
                       }
                     } else {
-                      print("Please select an image");
+                      debugPrint("Please select an image");
                     }
                     Navigator.pushReplacement(
                         context,

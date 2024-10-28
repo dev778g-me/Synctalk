@@ -19,9 +19,9 @@ class _WrapperState extends State<Wrapper> {
         stream: logsignauth,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return ContainerScreen();
+            return const ContainerScreen();
           } else {
-            return LoginScreen();
+            return const LoginScreen();
           }
         },
       ),

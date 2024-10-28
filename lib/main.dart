@@ -1,4 +1,6 @@
 import 'package:chat/authentication/wrapper.dart';
+import 'package:chat/provider/contactsprovider.dart';
+import 'package:chat/provider/peopleprovider.dart';
 import 'package:chat/provider/userdataprovider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -25,9 +27,11 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (context) => UserProvider(),
-        )
+        ),
+        ChangeNotifierProvider(create: (_) => Contactsprovider()),
+        ChangeNotifierProvider(create: (_) => Peopleprovider())
       ],
-      child: ChatApp(),
+      child: const ChatApp(),
     ));
   });
 

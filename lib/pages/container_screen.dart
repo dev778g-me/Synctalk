@@ -17,18 +17,15 @@ class _ContainerScreenState extends State<ContainerScreen> {
   int currentindex = 0;
   List<Widget> pages = [
     const HomeScreen(),
-    const StatusScreen(),
     const Callscreen(),
+    const StatusScreen(),
     SettingsScreen()
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: const Icon(Iconsax.send_14),
-      ),
       bottomNavigationBar: NavigationBar(
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
           selectedIndex: currentindex,
           onDestinationSelected: (value) {
             HapticFeedback.selectionClick();
@@ -38,11 +35,25 @@ class _ContainerScreenState extends State<ContainerScreen> {
           },
           destinations: const [
             NavigationDestination(
-                icon: Icon(Iconsax.message_text), label: "Chat"),
-            NavigationDestination(icon: Icon(Iconsax.status), label: "Status"),
-            NavigationDestination(icon: Icon(Icons.call_made), label: "Call"),
+              icon: Icon(Iconsax.message_2),
+              label: "Chat",
+              selectedIcon: Icon(Iconsax.message_25),
+            ),
             NavigationDestination(
-                icon: Icon(Iconsax.settings), label: "Settings")
+              icon: Icon(Icons.people_outline),
+              label: "People",
+              selectedIcon: Icon(Icons.people),
+            ),
+            NavigationDestination(
+              icon: Icon(Iconsax.status),
+              label: "Status",
+              selectedIcon: Icon(Iconsax.status5),
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.settings_outlined),
+              label: "Settings",
+              selectedIcon: Icon(Icons.settings),
+            )
           ]),
       body: pages[currentindex],
     );
