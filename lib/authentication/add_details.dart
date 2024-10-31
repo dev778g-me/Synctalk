@@ -114,6 +114,9 @@ class _AddDetailsState extends State<AddDetails> {
                 width: double.infinity,
                 child: FilledButton.tonalIcon(
                   onPressed: () async {
+                    setState(() {
+                      isloading = true;
+                    });
                     if (selectedimage != null) {
                       final imageUrl =
                           await UploadData().uploadImage(selectedimage!, uid);
@@ -128,6 +131,8 @@ class _AddDetailsState extends State<AddDetails> {
                       } else {
                         debugPrint("Error: Image URL is null");
                       }
+
+                      isloading = false;
                     } else {
                       debugPrint("Please select an image");
                     }
@@ -136,7 +141,9 @@ class _AddDetailsState extends State<AddDetails> {
                         MaterialPageRoute(
                             builder: (context) => const Wrapper()));
                   },
-                  label: const Text("Continue"),
+                  label: isloading
+                      ? const CircularProgressIndicator()
+                      : const Text("Continue"),
                   icon: const Icon(Iconsax.activity),
                 ),
               ),

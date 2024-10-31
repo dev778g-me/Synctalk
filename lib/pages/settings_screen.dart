@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:chat/authentication/authservice.dart';
 import 'package:chat/features/upload_data.dart';
 import 'package:chat/pages/settings_screen/apprence_screen.dart';
+import 'package:chat/pages/settings_screen/friendscreen.dart';
+import 'package:chat/pages/settings_screen/notification_screen.dart';
 import 'package:chat/provider/userdataprovider.dart';
 import 'package:chat/widgets/my_textfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -163,7 +165,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const NotificationScreen()));
+                    },
                     leading: const Icon(Iconsax.notification4),
                     title: const Text("Notification"),
                   ),
@@ -178,9 +186,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     title: const Text("Apprence"),
                   ),
                   ListTile(
-                    onTap: () {},
-                    leading: const Icon(Iconsax.lock),
-                    title: const Text("Privacy "),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Friendscreen()));
+                    },
+                    leading: const Icon(Iconsax.people),
+                    title: const Text("Friends"),
                   ),
                   ListTile(
                     onTap: () {},

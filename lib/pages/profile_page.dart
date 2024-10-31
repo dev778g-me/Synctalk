@@ -18,6 +18,7 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //bool isloading = false;
     final currentuserid = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
       appBar: AppBar(
@@ -49,10 +50,18 @@ class ProfilePage extends StatelessWidget {
             ),
             FilledButton.tonalIcon(
               onPressed: () {
-                SendFriendRequest().sendFriendRequest(userId, currentuserid);
+                SendFriendRequest().sendFriendRequest(
+                  userId,
+                  currentuserid,
+                );
                 HapticFeedback.lightImpact();
-                ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("send friend request ")));
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text("Sent Friend Request"),
+                  behavior: SnackBarBehavior.floating,
+                  duration: Duration(seconds: 1),
+                  backgroundColor: Colors.green,
+                  showCloseIcon: true,
+                ));
               },
               label: const Text("Send Friend Request"),
               icon: const Icon(Iconsax.user_cirlce_add),

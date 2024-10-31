@@ -1,21 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 class SendFriendRequest {
-  Future<void> sendFriendRequest(String recipientUid, String senderUid) async {
+  Future<void> sendFriendRequest(
+    String recipientUid,
+    String senderUid,
+  ) async {
     try {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(recipientUid)
-          .collection('friendRequests')
-          .doc(senderUid)
-          .set({
-        "senderUid": senderUid,
-        "status": "pending",
-        "time": FieldValue.serverTimestamp(),
+          .update({
+        "friendrequests": FieldValue.arrayUnion([
+          {
+            "sender_uid": senderUid,
+            "status": "pending",
+          }
+        ])
       });
-      print("Friend request sent successfully!");
+      debugPrint("Friend request sent successfully!");
     } catch (e) {
-      print("Error sending friend request: $e");
+      debugPrint("Error sending friend request: $e");
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:chat/authentication/wrapper.dart';
 import 'package:chat/provider/contactsprovider.dart';
+import 'package:chat/provider/friend_requestuid.dart';
 import 'package:chat/provider/peopleprovider.dart';
 import 'package:chat/provider/userdataprovider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,7 +30,8 @@ void main() async {
           create: (context) => UserProvider(),
         ),
         ChangeNotifierProvider(create: (_) => Contactsprovider()),
-        ChangeNotifierProvider(create: (_) => Peopleprovider())
+        ChangeNotifierProvider(create: (_) => Peopleprovider()),
+        ChangeNotifierProvider(create: (_) => FriendRequestuidprovider())
       ],
       child: const ChatApp(),
     ));

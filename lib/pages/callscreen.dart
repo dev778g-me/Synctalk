@@ -46,6 +46,7 @@ class Callscreen extends StatelessWidget {
                 final user = peopleprovider.users[index];
                 return ListTile(
                   onTap: () {
+                    print(user.name);
                     Navigator.push(
                         context,
                         MaterialPageRoute(

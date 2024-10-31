@@ -15,4 +15,13 @@ class UserProvider with ChangeNotifier {
       print("Error fetching user data: $e");
     }
   }
+
+  Future getfriendrequest(String uid) async {
+    try {
+      var uname =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+      print(uname);
+    } catch (e) {}
+  }
 }
