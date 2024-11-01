@@ -22,7 +22,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       appBar: AppBar(
         elevation: 0,
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.search),
+            ),
+          ),
+        ],
         title: const Text("Start Messaging !!"),
       ),
     );

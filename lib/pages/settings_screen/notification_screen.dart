@@ -17,7 +17,7 @@ class NotificationScreen extends StatelessWidget {
                 onPressed: () async {
                   await frienduidprovider.fetchFriendRequests();
                 },
-                icon: Icon(Iconsax.refresh))
+                icon: const Icon(Iconsax.refresh))
           ],
         ),
         body: frienduidprovider.isLoading
@@ -42,7 +42,7 @@ class NotificationScreen extends StatelessWidget {
                                     frienduidprovider
                                         .acceptfriendrequest(user.uid);
                                   },
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Iconsax.user_add,
                                     color: Colors.greenAccent,
                                   )),
@@ -51,7 +51,7 @@ class NotificationScreen extends StatelessWidget {
                                     frienduidprovider
                                         .rejectfriendrequest(user.uid);
                                   },
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Iconsax.user_remove,
                                     color: Colors.red,
                                   )),
