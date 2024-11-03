@@ -56,9 +56,9 @@ class Friendscreen extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => ChatPage(
-                                        reciverId: friend.uid,
                                         imageUrl: friend.imageUrl,
                                         name: friend.name,
+                                        reciverId: friend.uid,
                                       )));
                           // Add chat functionality here
                         },

@@ -55,6 +55,9 @@ dependencies:
   card_loading: ^0.3.2
   shimmer: ^3.0.0
   fade_shimmer: ^2.2.0
+  dash_chat_2: ^0.0.21
+  
+ 
 
 dev_dependencies:
   flutter_test:

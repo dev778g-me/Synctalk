@@ -57,7 +57,7 @@ class FriendRequestuidprovider extends ChangeNotifier {
           .doc(senderuid)
           .update({
         "friends": FieldValue.arrayUnion([
-          {"friend_uid": senderuid}
+          {"friend_uid": currentuserid}
         ])
       });
 //removing the userid from the friend request array from firebase firestore
