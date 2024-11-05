@@ -28,7 +28,6 @@ class _ContainerScreenState extends State<ContainerScreen> {
           labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
           selectedIndex: currentindex,
           onDestinationSelected: (value) {
-            HapticFeedback.selectionClick();
             setState(() {
               currentindex = value;
             });

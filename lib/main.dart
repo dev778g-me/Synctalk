@@ -56,10 +56,10 @@ class ChatApp extends StatelessWidget {
 
       // Apply the light and dark themes
       theme: ThemeData.from(
-          colorScheme: flexSchemeLight,
+          colorScheme: lightColorScheme,
           textTheme: GoogleFonts.poppinsTextTheme()),
       darkTheme: ThemeData.from(
-          colorScheme: flexSchemeDark,
+          colorScheme: darkColorScheme,
           textTheme: GoogleFonts.poppinsTextTheme()),
 
       themeMode:

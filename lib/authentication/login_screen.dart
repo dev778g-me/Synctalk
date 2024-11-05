@@ -29,23 +29,27 @@ class _LoginScreenState extends State<LoginScreen> {
       HapticFeedback.lightImpact();
 
       await Authservice().signin(emailcontroller.text, passwordcontroller.text);
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Login Successful"),
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 5),
-        backgroundColor: Colors.green,
-        showCloseIcon: true,
-      ));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Login Successful"),
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 5),
+          backgroundColor: Colors.green,
+          showCloseIcon: true,
+        ));
+      }
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const Wrapper()));
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Please fill all the required fields"),
-        behavior: SnackBarBehavior.floating,
-        duration: Duration(seconds: 5),
-        backgroundColor: Colors.red,
-        showCloseIcon: true,
-      ));
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text("Please fill all the required fields"),
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: 5),
+          backgroundColor: Colors.red,
+          showCloseIcon: true,
+        ));
+      }
     }
     setState(() {
       isloading = false;

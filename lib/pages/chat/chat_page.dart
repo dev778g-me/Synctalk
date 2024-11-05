@@ -1,11 +1,10 @@
 import 'package:chat/api.dart';
 import 'package:chat/provider/chat_service.dart';
-import 'package:chat/models/message_model.dart'; // Ensure this model exists and is mapped correctly
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:intl/intl.dart';
 
 class ChatPage extends StatefulWidget {
   final String reciverId;
@@ -24,115 +23,171 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final ChatUser currentUser = ChatUser(id: Api.useruid, firstName: 'You');
-  final ChatService chatService = ChatService();
+  ChatUser? currentuser;
+  ChatUser? otheruser;
+  List<ChatMessage> messages = [];
 
-  void sendMessage(String message) async {
-    await chatService.sendmessage(widget.reciverId, message);
+  @override
+  void initState() {
+    super.initState();
+    currentuser = ChatUser(
+      id: Api.useruid,
+      firstName: 'h',
+    );
+    otheruser = ChatUser(
+        id: widget.reciverId,
+        firstName: widget.name,
+        profileImage: widget.imageUrl);
+    fetchMessages(); // Call fetchMessages when the chat page initializes
   }
 
-  String formatMessageTime(DateTime time) {
-    final now = DateTime.now();
-    if (now.year == time.year &&
-        now.month == time.month &&
-        now.day == time.day) {
-      return DateFormat.Hm().format(time);
-    } else {
-      return DateFormat.yMd().format(time);
+  void fetchMessages() async {
+    String chatId =
+        ChatService().generateChatId(uid1: Api.useruid, uid2: widget.reciverId);
+
+    FirebaseFirestore.instance
+        .collection('chats')
+        .doc(chatId)
+        .snapshots()
+        .listen((snapshot) {
+      if (snapshot.exists) {
+        final chatData = snapshot.data() as Map<String, dynamic>;
+        final List<dynamic> textData = chatData['text'] ?? [];
+
+        // Sort messages by timestamp
+        final sortedMessages = textData.map((message) {
+          return ChatMessage(
+            text: message['message'],
+            user: ChatUser(id: message['senderid']),
+            createdAt: message['timestamp'].toDate(),
+          );
+        }).toList();
+
+        // Sort messages based on createdAt (timestamp)
+        sortedMessages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+
+        setState(() {
+          messages = sortedMessages; // Update messages with sorted messages
+        });
+      }
+    });
+  }
+
+  // METHOD FOR SENDING MESSAGE
+  Future<void> sendMessage(ChatMessage message) async {
+    try {
+      String chatId = ChatService()
+          .generateChatId(uid1: Api.useruid, uid2: widget.reciverId);
+      await FirebaseFirestore.instance.collection('chats').doc(chatId).set({
+        "participents": FieldValue.arrayUnion([Api.useruid, widget.reciverId]),
+        "text": FieldValue.arrayUnion([
+          {
+            'message': message.text,
+            "senderid": currentuser!.id,
+            "timestamp": Timestamp.now()
+          }
+        ])
+      }, SetOptions(merge: true));
+    } catch (e) {
+      debugPrint("Error sending message: $e");
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            CircleAvatar(
-              backgroundImage: NetworkImage(widget.imageUrl),
-              radius: 20,
-            ),
-            const SizedBox(width: 12),
-            Text(
-              widget.name,
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-            ),
+        appBar: AppBar(
+          leadingWidth: 30,
+          elevation: 10,
+          title: Row(
+            children: [
+              CircleAvatar(
+                backgroundImage: NetworkImage(widget.imageUrl),
+                radius: 20,
+              ),
+              const SizedBox(width: 12),
+              Text(
+                widget.name,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+          actions: [
+            IconButton(
+                icon: const Icon(Iconsax.video),
+                onPressed: () async {
+                  final me = ChatService()
+                      .checkChatExist(Api.useruid, widget.reciverId);
+
+                  if (await me) {}
+                }),
+            IconButton(icon: const Icon(Iconsax.call), onPressed: () {}),
+            IconButton(icon: const Icon(Iconsax.more), onPressed: () {}),
           ],
         ),
-        actions: [
-          IconButton(icon: const Icon(Iconsax.video), onPressed: () {}),
-          IconButton(icon: const Icon(Iconsax.call), onPressed: () {}),
-          IconButton(icon: const Icon(Iconsax.more), onPressed: () {}),
-        ],
-      ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: chatService.getmessages(Api.useruid, widget.reciverId),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (snapshot.hasError) {
-            return const Center(child: Text('Error loading messages'));
-          }
-
-          // Convert Firestore documents to ChatMessage instances
-          final messages = snapshot.data!.docs.map((doc) {
-            final data = doc.data() as Map<String, dynamic>;
-            return ChatMessage(
-                user: ChatUser(id: data['senderid']),
-                text: data['text'],
-                createdAt: (data['createdat'] as Timestamp).toDate());
-          }).toList();
-
-          return DashChat(
-            messageListOptions: const MessageListOptions(
-                scrollPhysics: BouncingScrollPhysics()),
-            currentUser: currentUser,
-            onSend: (ChatMessage message) {
-              sendMessage(message.text); // Trigger message sending
-            },
-            messages: messages,
+        body: DashChat(
+            messageOptions: MessageOptions(
+              onLongPressMessage: (p0) {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog();
+                    });
+              },
+              containerColor: FlexColor.sharkDarkSecondary,
+              currentUserContainerColor: Colors.amber,
+              showOtherUsersAvatar: true,
+              showTime: true,
+            ),
             inputOptions: InputOptions(
-              sendButtonBuilder: (send) => IconButton(
-                icon: Icon(Iconsax.send_1,
-                    color: Theme.of(context).colorScheme.primary),
-                onPressed: send,
-              ),
               inputDecoration: InputDecoration(
-                prefixIcon: IconButton(
-                    onPressed: () {}, icon: const Icon(Iconsax.emoji_happy)),
                 hintText: 'Type a message...',
                 filled: true,
-                fillColor: Theme.of(context).colorScheme.inversePrimary,
+                fillColor: Theme.of(context)
+                    .colorScheme
+                    .inversePrimary, // Background color
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide.none,
+                  borderSide: BorderSide.none, // No border when not focused
                 ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                  // Light border color
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                  // Color when focused
+                ),
+                prefixIcon: IconButton(
+                  icon: const Icon(Icons.emoji_emotions_outlined,
+                      color: Colors.grey),
+                  onPressed: () {
+                    // Add emoji picker functionality here
+                  },
+                ),
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.attach_file, color: Colors.grey),
+                  onPressed: () {
+                    // Attach files or images
+                  },
+                ),
+              ),
+              alwaysShowSend: true, // Show send button at all times
+              sendButtonBuilder: (send) => IconButton.filledTonal(
+                splashRadius: 10,
+                iconSize: 30,
+                icon: Icon(Iconsax.send_14,
+                    size: 25, color: Theme.of(context).colorScheme.primary),
+                onPressed: send,
               ),
             ),
-            messageOptions: MessageOptions(
-              showTime: true,
-              textBeforeMedia: true,
-              currentUserContainerColor: Colors.deepPurple.shade400,
-              showOtherUsersName: true,
-              messageTimeBuilder: (message, isOwnMessage) {
-                return Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
-                  child: Text(
-                    formatMessageTime(message.createdAt),
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: isOwnMessage ? Colors.black54 : Colors.black38,
-                    ),
-                  ),
-                );
-              },
-            ),
-          );
-        },
-      ),
-    );
+            currentUser: currentuser!,
+            onSend: sendMessage,
+            messages:
+                messages.reversed.toList() // Bind the sorted messages here
+            ));
   }
 }
