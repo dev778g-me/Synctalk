@@ -225,18 +225,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             actions: [
                               TextButton(
                                   onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("No")),
-                              TextButton(
-                                  onPressed: () {
                                     Authservice().logout();
                                     Navigator.pop(context);
                                   },
                                   child: const Text(
                                     "Yes",
                                     style: TextStyle(color: Colors.red),
-                                  ))
+                                  )),
+                              FilledButton.tonal(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("No")),
                             ],
                           );
                         },

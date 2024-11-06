@@ -1,6 +1,6 @@
 import 'package:chat/pages/chat/chat_page.dart';
 import 'package:chat/pages/profile_page.dart';
-import 'package:chat/provider/friend_requestuid.dart';
+import 'package:chat/provider/chathome.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +10,7 @@ class Friendscreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final friendsProvider =
-        Provider.of<FriendRequestuidprovider>(context, listen: false);
+    final friendsProvider = Provider.of<Chathome>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(

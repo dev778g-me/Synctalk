@@ -1,4 +1,5 @@
 import 'package:chat/authentication/wrapper.dart';
+import 'package:chat/provider/chathome.dart';
 import 'package:chat/provider/contactsprovider.dart';
 import 'package:chat/provider/friend_requestuid.dart';
 import 'package:chat/provider/peopleprovider.dart';
@@ -31,6 +32,7 @@ void main() async {
         ),
         ChangeNotifierProvider(create: (_) => Contactsprovider()),
         ChangeNotifierProvider(create: (_) => Peopleprovider()),
+        ChangeNotifierProvider(create: (_) => Chathome()),
         ChangeNotifierProvider(create: (_) => FriendRequestuidprovider())
       ],
       child: const ChatApp(),
@@ -56,9 +58,11 @@ class ChatApp extends StatelessWidget {
 
       // Apply the light and dark themes
       theme: ThemeData.from(
+          useMaterial3: true,
           colorScheme: lightColorScheme,
           textTheme: GoogleFonts.poppinsTextTheme()),
       darkTheme: ThemeData.from(
+          useMaterial3: true,
           colorScheme: darkColorScheme,
           textTheme: GoogleFonts.poppinsTextTheme()),
 

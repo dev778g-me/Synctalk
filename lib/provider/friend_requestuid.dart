@@ -10,7 +10,6 @@ class FriendRequestuidprovider extends ChangeNotifier {
 
   FriendRequestuidprovider() {
     fetchFriendRequests();
-    getfriendlist();
   }
   Future<void> fetchFriendRequests() async {
     try {

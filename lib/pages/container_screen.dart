@@ -24,33 +24,45 @@ class _ContainerScreenState extends State<ContainerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: NavigationBar(
-          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
           selectedIndex: currentindex,
           onDestinationSelected: (value) {
             setState(() {
               currentindex = value;
             });
           },
-          destinations: const [
+          destinations: [
             NavigationDestination(
-              icon: Icon(Iconsax.message_2),
+              icon: const Icon(Iconsax.message_2),
               label: "Chat",
-              selectedIcon: Icon(Iconsax.message_25),
+              selectedIcon: Icon(
+                Iconsax.message_25,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
             NavigationDestination(
-              icon: Icon(Icons.people_outline),
+              icon: const Icon(Icons.people_outline),
               label: "People",
-              selectedIcon: Icon(Icons.people),
+              selectedIcon: Icon(
+                Icons.people,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
             NavigationDestination(
-              icon: Icon(Iconsax.status),
+              icon: const Icon(Iconsax.status),
               label: "Status",
-              selectedIcon: Icon(Iconsax.status5),
+              selectedIcon: Icon(
+                Iconsax.status5,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
             NavigationDestination(
-              icon: Icon(Icons.settings_outlined),
+              icon: const Icon(Icons.settings_outlined),
               label: "Settings",
-              selectedIcon: Icon(Icons.settings),
+              selectedIcon: Icon(
+                Icons.settings,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             )
           ]),
       body: pages[currentindex],
