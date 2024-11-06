@@ -135,8 +135,8 @@ class _ChatPageState extends State<ChatPage> {
                       return AlertDialog();
                     });
               },
-              containerColor: FlexColor.sharkDarkSecondary,
-              currentUserContainerColor: Colors.amber,
+              containerColor: Theme.of(context).colorScheme.primaryFixed,
+              currentUserContainerColor: Theme.of(context).colorScheme.primary,
               showOtherUsersAvatar: true,
               showTime: true,
             ),
@@ -146,7 +146,7 @@ class _ChatPageState extends State<ChatPage> {
                 filled: true,
                 fillColor: Theme.of(context)
                     .colorScheme
-                    .inversePrimary, // Background color
+                    .primaryContainer, // Background color
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 border: OutlineInputBorder(
