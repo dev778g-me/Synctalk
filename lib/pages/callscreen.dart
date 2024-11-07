@@ -11,7 +11,7 @@ class Callscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final peopleprovider = Provider.of<Peopleprovider>(context);
 
-    Future<void> _refreshData() async {
+    Future<void> refreshData() async {
       await peopleprovider.fetchuser();
     }
 
@@ -21,7 +21,7 @@ class Callscreen extends StatelessWidget {
       ),
       body: peopleprovider.isLoading
           ? RefreshIndicator(
-              onRefresh: _refreshData,
+              onRefresh: refreshData,
               child: ListView.builder(
                 itemCount: 10, // Only show 10 shimmer items while loading
                 itemBuilder: (context, index) {
@@ -47,14 +47,13 @@ class Callscreen extends StatelessWidget {
               ),
             )
           : RefreshIndicator(
-              onRefresh: _refreshData,
+              onRefresh: refreshData,
               child: ListView.builder(
                 itemCount: peopleprovider.users.length,
                 itemBuilder: (context, index) {
                   final user = peopleprovider.users[index];
                   return ListTile(
                     onTap: () {
-                      print(user.name);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

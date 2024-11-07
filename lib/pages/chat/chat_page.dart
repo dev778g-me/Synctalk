@@ -114,13 +114,9 @@ class _ChatPageState extends State<ChatPage> {
           ),
           actions: [
             IconButton(
-                icon: const Icon(Iconsax.video),
-                onPressed: () async {
-                  final me = ChatService()
-                      .checkChatExist(Api.useruid, widget.reciverId);
-
-                  if (await me) {}
-                }),
+              icon: const Icon(Iconsax.video),
+              onPressed: () {},
+            ),
             IconButton(icon: const Icon(Iconsax.call), onPressed: () {}),
             IconButton(icon: const Icon(Iconsax.more), onPressed: () {}),
           ],
