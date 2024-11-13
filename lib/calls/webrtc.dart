@@ -1,3 +1,6 @@
+import 'dart:ffi';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
 class Webrtc {
@@ -30,13 +33,75 @@ class Webrtc {
       ]
     });
     _peerConnection!.onIceCandidate = (candidate) {
+      // ignore: unnecessary_null_comparison
       if (candidate != null) {
-        //TODO
+        //dIceCandidateToFirebase(candidate);
       }
     };
     _peerConnection!.onAddStream = (stream) {
       _remoterenderer.srcObject = stream;
     };
     _peerConnection!.addStream(_localstream!);
+  }
+
+  Future<void> createoffer() async {
+    RTCSessionDescription offer = await _peerConnection!.createOffer();
+    _peerConnection!.setLocalDescription(offer);
+    await FirebaseFirestore.instance.collection("calls").doc("first").set({
+      "offer": {"type": offer.type, "sdp": offer.sdp}
+    });
+  }
+
+  Future<void> listenoffer() async {
+    FirebaseFirestore.instance
+        .collection('calls')
+        .doc("first")
+        .snapshots()
+        .listen((snapshot) async {
+      if (snapshot.exists && snapshot.data()!["offer"] != null) {
+        var offer = snapshot.data()!['offer'];
+
+        RTCSessionDescription remoteoffer =
+            RTCSessionDescription(offer["sdp"], offer["type"]);
+        RTCSessionDescription answer = await _peerConnection!.createAnswer();
+        await _peerConnection!.setLocalDescription(answer);
+        await FirebaseFirestore.instance
+            .collection('calls')
+            .doc("first")
+            .update({
+          "answer": {
+            "type": answer.type,
+            "sdp": answer.sdp,
+          }
+        });
+      }
+    });
+  }
+
+  Future<void> listenforanswer() async {
+    FirebaseFirestore.instance
+        .collection('calls')
+        .doc('first')
+        .snapshots()
+        .listen((snapshot) async {
+      if (snapshot.exists && snapshot.data()!["answer"] != null) {
+        var answer = snapshot.data()!['answer'];
+        RTCSessionDescription remoteanswar =
+            RTCSessionDescription(answer['sdp'], answer['type']);
+        _peerConnection!.setRemoteDescription(remoteanswar);
+      }
+    });
+  }
+
+  Future<void> addIcecandidatetofirebase(RTCIceCandidate candidate) async {
+    await FirebaseFirestore.instance
+        .collection("calls")
+        .doc("first")
+        .collection("ice")
+        .add({
+      "candidate ": candidate.candidate,
+      "sdpmin": candidate.sdpMid,
+      "sdpmaxlineindex": candidate.sdpMLineIndex,
+    });
   }
 }
