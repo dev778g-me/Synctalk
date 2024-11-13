@@ -1,6 +1,5 @@
 import 'package:chat/pages/callscreen.dart';
 import 'package:chat/pages/home_screen.dart';
-import 'package:chat/pages/settings_screen.dart';
 import 'package:chat/pages/status_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -18,13 +17,12 @@ class _ContainerScreenState extends State<ContainerScreen> {
     const HomeScreen(),
     const Callscreen(),
     const StatusScreen(),
-    SettingsScreen()
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: NavigationBar(
-          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
           selectedIndex: currentindex,
           onDestinationSelected: (value) {
             setState(() {
@@ -49,21 +47,13 @@ class _ContainerScreenState extends State<ContainerScreen> {
               ),
             ),
             NavigationDestination(
-              icon: const Icon(Iconsax.status),
+              icon: const Icon(Iconsax.story),
               label: "Status",
               selectedIcon: Icon(
-                Iconsax.status5,
+                Iconsax.story5,
                 color: Theme.of(context).colorScheme.primary,
               ),
             ),
-            NavigationDestination(
-              icon: const Icon(Icons.settings_outlined),
-              label: "Settings",
-              selectedIcon: Icon(
-                Icons.settings,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            )
           ]),
       body: pages[currentindex],
     );

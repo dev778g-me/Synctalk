@@ -35,6 +35,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final aboutcontroller = TextEditingController();
   File? selectedimage;
   @override
+  void dispose() {
+    namecontroller.dispose();
+    aboutcontroller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context);
     final userData = userProvider.userData;
