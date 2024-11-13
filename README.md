@@ -1,4 +1,4 @@
-# chat
+# SyncTalk
 
 A new Flutter project.
 
