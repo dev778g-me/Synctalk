@@ -4,6 +4,7 @@ import 'package:chat/pages/settings_screen.dart';
 import 'package:chat/provider/chathome.dart';
 import 'package:chat/provider/userdataprovider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +12,7 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
@@ -70,21 +72,33 @@ class _HomeScreenState extends State<HomeScreen> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ChatPage(
-                                    reciverId: friendchat.uid,
-                                    imageUrl: friendchat.imageUrl,
-                                    name: friendchat.name)));
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //       builder: (context) => ChatPage(
+                        //           reciverId: friendchat.uid,
+                        //           imageUrl: friendchat.imageUrl,
+                        //           name: friendchat.name),
+                        //     ));
+                        Get.to(
+                            () => ChatPage(
+                                reciverId: friendchat.uid,
+                                imageUrl: friendchat.imageUrl,
+                                name: friendchat.name),
+                            transition: Transition.rightToLeft,
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.fastOutSlowIn);
                       },
-                      leading: CircleAvatar(
-                        backgroundImage: NetworkImage(friendchat.imageUrl),
+                      leading: Hero(
+                        tag: friendchat.uid,
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(friendchat.imageUrl),
+                        ),
                       ),
                       title: Text(friendchat.name),
                       subtitle: const Text('data'),
                       trailing: const Icon(
-                        Icons.adb,
+                        Icons.circle,
                         color: Colors.green,
                       ),
                     );

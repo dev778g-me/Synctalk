@@ -123,48 +123,81 @@ class _ChatPageState extends State<ChatPage> {
         ),
         body: DashChat(
             messageOptions: MessageOptions(
+              messageTextBuilder: (message, previousMessage, nextMessage) {
+                int hour = message.createdAt.hour;
+                int minute = message.createdAt.minute;
+
+                // Convert to 12-hour format
+                String ampm = hour >= 12 ? 'PM' : 'AM';
+                hour = hour % 12;
+                hour = hour == 0
+                    ? 12
+                    : hour; // If hour is 0, set it to 12 for 12 AM
+
+                // Format minute to ensure two digits
+                String formattedTime =
+                    '  $hour:${minute.toString().padLeft(2, '0')} $ampm';
+
+                return RichText(
+                    text: TextSpan(children: [
+                  TextSpan(
+                    text: message.text,
+                  ),
+                  TextSpan(
+                      style: const TextStyle(fontSize: 10), text: formattedTime)
+                ]));
+              },
+              messagePadding:
+                  const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               onLongPressMessage: (p0) {
                 showDialog(
                     context: context,
                     builder: (context) {
-                      return AlertDialog();
+                      return const AlertDialog();
                     });
               },
-              containerColor: Theme.of(context).colorScheme.primaryFixed,
-              currentUserContainerColor: Theme.of(context).colorScheme.primary,
-              showOtherUsersAvatar: true,
+              textColor: Theme.of(context).colorScheme.onSurface,
+              currentUserContainerColor: const Color(0xFF2962FF),
+              currentUserTextColor: Theme.of(context).colorScheme.onSurface,
+              containerColor: Theme.of(context).colorScheme.surfaceContainerLow,
+              showOtherUsersAvatar: false,
               showTime: true,
             ),
             inputOptions: InputOptions(
+              inputTextStyle: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
               inputDecoration: InputDecoration(
                 hintText: 'Type a message...',
+                hintStyle: TextStyle(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+
                 filled: true,
                 fillColor: Theme.of(context)
                     .colorScheme
-                    .primaryContainer, // Background color
+                    .surfaceContainerLow, // Background color
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(25),
                   borderSide: BorderSide.none, // No border when not focused
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  // Light border color
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  // Color when focused
-                ),
+
                 prefixIcon: IconButton(
-                  icon: const Icon(Icons.emoji_emotions_outlined,
-                      color: Colors.grey),
+                  icon: Icon(
+                    Icons.emoji_emotions_outlined,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                   onPressed: () {
                     // Add emoji picker functionality here
                   },
                 ),
                 suffixIcon: IconButton(
-                  icon: const Icon(Icons.attach_file, color: Colors.grey),
+                  icon: Icon(
+                    Icons.attach_file,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                   onPressed: () {
                     // Attach files or images
                   },

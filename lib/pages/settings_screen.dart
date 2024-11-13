@@ -66,6 +66,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        title: const Text(
+          "Settings",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
           IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))
@@ -77,12 +81,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppBar(
-                    title: const Text(
-                      "Settings",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
                   ListTile(
                     onTap: () {},
                     subtitle: Text(userData['about']),
@@ -168,7 +166,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         horizontal: 20, vertical: 20),
                     child: Text(
                       "General",
-                      style: TextStyle(color: Theme.of(context).indicatorColor),
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.primary),
                     ),
                   ),
                   ListTile(
