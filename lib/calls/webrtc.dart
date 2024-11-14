@@ -1,11 +1,12 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 
-class Webrtc {
+class Callswebrtc {
   final _localrenderer = RTCVideoRenderer(); //local video renderer
   final _remoterenderer = RTCVideoRenderer(); //remote video renderer
+  RTCVideoRenderer get localRenderer => _localrenderer;
+  RTCVideoRenderer get remoteRenderer => _remoterenderer;
+
   RTCPeerConnection?
       _peerConnection; //peer connection responsiable for excahnging media
   MediaStream?
@@ -102,6 +103,24 @@ class Webrtc {
       "candidate ": candidate.candidate,
       "sdpmin": candidate.sdpMid,
       "sdpmaxlineindex": candidate.sdpMLineIndex,
+    });
+  }
+
+  Future<void> listenforicecandidate() async {
+    FirebaseFirestore.instance
+        .collection("calls")
+        .doc("first")
+        .collection('ice')
+        .snapshots()
+        .listen((snapshot) {
+      if (snapshot.docs.isNotEmpty) {
+        for (var doc in snapshot.docs) {
+          var data = doc.data();
+          RTCIceCandidate candidate = RTCIceCandidate(
+              data["candidate"], data["sdpmin"], data["sdpmaxlineindex"]);
+          _peerConnection!.addCandidate(candidate);
+        }
+      }
     });
   }
 }
