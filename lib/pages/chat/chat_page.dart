@@ -25,7 +25,6 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   ChatUser? currentuser;
   ChatUser? otheruser;
-  List<ChatMessage> messages = [];
 
   @override
   void initState() {
@@ -38,39 +37,6 @@ class _ChatPageState extends State<ChatPage> {
         id: widget.reciverId,
         firstName: widget.name,
         profileImage: widget.imageUrl);
-    fetchMessages(); // Call fetchMessages when the chat page initializes
-  }
-
-  void fetchMessages() async {
-    String chatId =
-        ChatService().generateChatId(uid1: Api.useruid, uid2: widget.reciverId);
-
-    FirebaseFirestore.instance
-        .collection('chats')
-        .doc(chatId)
-        .snapshots()
-        .listen((snapshot) {
-      if (snapshot.exists) {
-        final chatData = snapshot.data() as Map<String, dynamic>;
-        final List<dynamic> textData = chatData['text'] ?? [];
-
-        // Sort messages by timestamp
-        final sortedMessages = textData.map((message) {
-          return ChatMessage(
-            text: message['message'],
-            user: ChatUser(id: message['senderid']),
-            createdAt: message['timestamp'].toDate(),
-          );
-        }).toList();
-
-        // Sort messages based on createdAt (timestamp)
-        sortedMessages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
-
-        setState(() {
-          messages = sortedMessages; // Update messages with sorted messages
-        });
-      }
-    });
   }
 
   // METHOD FOR SENDING MESSAGE
@@ -95,6 +61,9 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    String chatId =
+        ChatService().generateChatId(uid1: Api.useruid, uid2: widget.reciverId);
+
     return Scaffold(
         appBar: AppBar(
           leadingWidth: 30,
@@ -125,101 +94,136 @@ class _ChatPageState extends State<ChatPage> {
             IconButton(icon: const Icon(Iconsax.more), onPressed: () {}),
           ],
         ),
-        body: DashChat(
-            messageOptions: MessageOptions(
-              messageTextBuilder: (message, previousMessage, nextMessage) {
-                int hour = message.createdAt.hour;
-                int minute = message.createdAt.minute;
+        body: StreamBuilder<DocumentSnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('chats')
+                .doc(chatId)
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-                // Convert to 12-hour format
-                String ampm = hour >= 12 ? 'PM' : 'AM';
-                hour = hour % 12;
-                hour = hour == 0
-                    ? 12
-                    : hour; // If hour is 0, set it to 12 for 12 AM
+              if (!snapshot.hasData || !snapshot.data!.exists) {
+                return const Center(child: Text('Start a conversation!'));
+              }
 
-                // Format minute to ensure two digits
-                String formattedTime =
-                    '  $hour:${minute.toString().padLeft(2, '0')} $ampm';
+              final chatData = snapshot.data!.data() as Map<String, dynamic>;
+              final List<dynamic> textData = chatData['text'] ?? [];
 
-                return RichText(
-                    text: TextSpan(children: [
-                  TextSpan(
-                    text: message.text,
+              final messages = textData.map((message) {
+                return ChatMessage(
+                  text: message['message'],
+                  user: ChatUser(id: message['senderid']),
+                  createdAt: message['timestamp'].toDate(),
+                );
+              }).toList();
+
+              // Sort messages based on createdAt (timestamp)
+              messages.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+
+              return DashChat(
+                  messageOptions: MessageOptions(
+                    messageTextBuilder:
+                        (message, previousMessage, nextMessage) {
+                      int hour = message.createdAt.hour;
+                      int minute = message.createdAt.minute;
+
+                      // Convert to 12-hour format
+                      String ampm = hour >= 12 ? 'PM' : 'AM';
+                      hour = hour % 12;
+                      hour = hour == 0
+                          ? 12
+                          : hour; // If hour is 0, set it to 12 for 12 AM
+
+                      // Format minute to ensure two digits
+                      String formattedTime =
+                          '  $hour:${minute.toString().padLeft(2, '0')} $ampm';
+
+                      return RichText(
+                          text: TextSpan(children: [
+                        TextSpan(
+                          text: message.text,
+                        ),
+                        TextSpan(
+                            style: const TextStyle(fontSize: 10),
+                            text: formattedTime)
+                      ]));
+                    },
+                    messagePadding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 10),
+                    onLongPressMessage: (p0) {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const AlertDialog();
+                          });
+                    },
+                    textColor: Theme.of(context).colorScheme.onSurface,
+                    currentUserContainerColor: const Color(0xFF2962FF),
+                    currentUserTextColor:
+                        Theme.of(context).colorScheme.onSurface,
+                    containerColor:
+                        Theme.of(context).colorScheme.surfaceContainerLow,
+                    showOtherUsersAvatar: false,
+                    showTime: true,
                   ),
-                  TextSpan(
-                      style: const TextStyle(fontSize: 10), text: formattedTime)
-                ]));
-              },
-              messagePadding:
-                  const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              onLongPressMessage: (p0) {
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return const AlertDialog();
-                    });
-              },
-              textColor: Theme.of(context).colorScheme.onSurface,
-              currentUserContainerColor: const Color(0xFF2962FF),
-              currentUserTextColor: Theme.of(context).colorScheme.onSurface,
-              containerColor: Theme.of(context).colorScheme.surfaceContainerLow,
-              showOtherUsersAvatar: false,
-              showTime: true,
-            ),
-            inputOptions: InputOptions(
-              inputTextStyle: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-              inputDecoration: InputDecoration(
-                hintText: 'Type a message...',
-                hintStyle: TextStyle(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+                  inputOptions: InputOptions(
+                    inputTextStyle: TextStyle(
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                    inputDecoration: InputDecoration(
+                      hintText: 'Type a message...',
+                      hintStyle: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
 
-                filled: true,
-                fillColor: Theme.of(context)
-                    .colorScheme
-                    .surfaceContainerLow, // Background color
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide.none, // No border when not focused
-                ),
+                      filled: true,
+                      fillColor: Theme.of(context)
+                          .colorScheme
+                          .surfaceContainerLow, // Background color
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide:
+                            BorderSide.none, // No border when not focused
+                      ),
 
-                prefixIcon: IconButton(
-                  icon: Icon(
-                    Icons.emoji_emotions_outlined,
-                    color: Theme.of(context).colorScheme.onSurface,
+                      prefixIcon: IconButton(
+                        icon: Icon(
+                          Icons.emoji_emotions_outlined,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                        onPressed: () {
+                          // Add emoji picker functionality here
+                        },
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          Icons.attach_file,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                        onPressed: () {
+                          // Attach files or images
+                        },
+                      ),
+                    ),
+                    alwaysShowSend: true, // Show send button at all times
+                    sendButtonBuilder: (send) => IconButton.filledTonal(
+                      splashRadius: 10,
+                      iconSize: 30,
+                      icon: Icon(Iconsax.send_14,
+                          size: 25,
+                          color: Theme.of(context).colorScheme.primary),
+                      onPressed: send,
+                    ),
                   ),
-                  onPressed: () {
-                    // Add emoji picker functionality here
-                  },
-                ),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    Icons.attach_file,
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
-                  onPressed: () {
-                    // Attach files or images
-                  },
-                ),
-              ),
-              alwaysShowSend: true, // Show send button at all times
-              sendButtonBuilder: (send) => IconButton.filledTonal(
-                splashRadius: 10,
-                iconSize: 30,
-                icon: Icon(Iconsax.send_14,
-                    size: 25, color: Theme.of(context).colorScheme.primary),
-                onPressed: send,
-              ),
-            ),
-            currentUser: currentuser!,
-            onSend: sendMessage,
-            messages:
-                messages.reversed.toList() // Bind the sorted messages here
-            ));
+                  currentUser: currentuser!,
+                  onSend: sendMessage,
+                  messages: messages.reversed
+                      .toList() // Bind the sorted messages here
+                  );
+            }));
   }
 }

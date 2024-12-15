@@ -25,6 +25,13 @@ class _AddDetailsState extends State<AddDetails> {
   final String uid = FirebaseAuth.instance.currentUser!.uid;
   final ImagePicker picker = ImagePicker();
   File? selectedimage;
+  @override
+  void dispose() {
+    super.dispose();
+    namecontroller.dispose();
+    aboutcontroller.dispose();
+    phonecontroller.dispose();
+  }
 
   Future<File?> pickImage() async {
     try {

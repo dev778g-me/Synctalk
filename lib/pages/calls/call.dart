@@ -24,7 +24,11 @@ class _CallState extends State<Call> {
     return Scaffold(
       body: Column(
         children: [
-          Expanded(child: RTCVideoView(webrtc.localRenderer)),
+          Expanded(
+              child: RTCVideoView(
+            webrtc.localRenderer,
+            mirror: true,
+          )),
           Expanded(child: RTCVideoView(webrtc.remoteRenderer)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

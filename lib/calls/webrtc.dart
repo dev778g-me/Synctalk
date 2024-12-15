@@ -36,7 +36,7 @@ class Callswebrtc {
     _peerConnection!.onIceCandidate = (candidate) {
       // ignore: unnecessary_null_comparison
       if (candidate != null) {
-        //dIceCandidateToFirebase(candidate);
+        addIcecandidatetofirebase(candidate);
       }
     };
     _peerConnection!.onAddStream = (stream) {
