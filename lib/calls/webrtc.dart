@@ -5,8 +5,9 @@ class Callswebrtc {
   final _localrenderer = RTCVideoRenderer(); //local video renderer
   final _remoterenderer = RTCVideoRenderer(); //remote video renderer
   RTCVideoRenderer get localRenderer => _localrenderer;
-  RTCVideoRenderer get remoteRenderer => _remoterenderer;
 
+  RTCVideoRenderer get remoteRenderer => _remoterenderer;
+  StreamTrackCallback? onaddremotestream;
   RTCPeerConnection?
       _peerConnection; //peer connection responsiable for excahnging media
   MediaStream?

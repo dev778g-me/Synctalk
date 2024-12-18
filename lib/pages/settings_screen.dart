@@ -84,9 +84,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ListTile(
                     onTap: () {},
                     subtitle: Text(userData['about']),
-                    leading: CircleAvatar(
-                        radius: 30,
-                        backgroundImage: NetworkImage(userData["imageurl"])),
+                    leading: Hero(
+                      tag: "pfp",
+                      child: CircleAvatar(
+                          radius: 30,
+                          backgroundImage: NetworkImage(userData["imageurl"])),
+                    ),
                     title: Text(userData["name"] ?? ""),
                     trailing: FilledButton.tonal(
                         onPressed: () {

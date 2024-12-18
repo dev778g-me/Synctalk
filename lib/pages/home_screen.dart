@@ -1,6 +1,5 @@
 import 'package:chat/api.dart';
 import 'package:chat/pages/chat/chat_page.dart';
-import 'package:chat/pages/chat/second_chat.dart';
 import 'package:chat/pages/settings_screen.dart';
 import 'package:chat/provider/chathome.dart';
 import 'package:chat/provider/userdataprovider.dart';
@@ -50,10 +49,13 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SettingsScreen()));
             },
-            child: CircleAvatar(
-              backgroundImage: userData == null
-                  ? const AssetImage('assets/synctalk.png')
-                  : NetworkImage(userData['imageurl']),
+            child: Hero(
+              tag: "pfp",
+              child: CircleAvatar(
+                backgroundImage: userData == null
+                    ? const AssetImage('assets/synctalk.png')
+                    : NetworkImage(userData['imageurl']),
+              ),
             ),
           ),
         ),

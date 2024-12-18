@@ -28,7 +28,6 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void initState() {
-    super.initState();
     currentuser = ChatUser(
       id: Api.useruid,
       firstName: 'h',
@@ -37,6 +36,7 @@ class _ChatPageState extends State<ChatPage> {
         id: widget.reciverId,
         firstName: widget.name,
         profileImage: widget.imageUrl);
+    super.initState();
   }
 
   // METHOD FOR SENDING MESSAGE
@@ -86,8 +86,8 @@ class _ChatPageState extends State<ChatPage> {
             IconButton(
               icon: const Icon(Iconsax.video),
               onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Call()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Call()));
               },
             ),
             IconButton(icon: const Icon(Iconsax.call), onPressed: () {}),
