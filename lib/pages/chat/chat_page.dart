@@ -30,7 +30,7 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     currentuser = ChatUser(
       id: Api.useruid,
-      firstName: 'h',
+      firstName: 'user1',
     );
     otheruser = ChatUser(
         id: widget.reciverId,
@@ -86,8 +86,8 @@ class _ChatPageState extends State<ChatPage> {
             IconButton(
               icon: const Icon(Iconsax.video),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Call()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => Call()));
               },
             ),
             IconButton(icon: const Icon(Iconsax.call), onPressed: () {}),
@@ -159,13 +159,22 @@ class _ChatPageState extends State<ChatPage> {
                             return const AlertDialog();
                           });
                     },
-                    textColor: Theme.of(context).colorScheme.onSurface,
+                    textColor: Colors.black,
                     currentUserContainerColor: const Color(0xFF2962FF),
                     currentUserTextColor:
                         Theme.of(context).colorScheme.onSurface,
                     containerColor:
                         Theme.of(context).colorScheme.surfaceContainerLow,
-                    showOtherUsersAvatar: false,
+                    showOtherUsersAvatar: true,
+                    avatarBuilder: (p0, onPressAvatar, onLongPressAvatar) {
+                      p0.profileImage = widget.imageUrl;
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: CircleAvatar(
+                          backgroundImage: NetworkImage(widget.imageUrl),
+                        ),
+                      );
+                    },
                     showTime: true,
                   ),
                   inputOptions: InputOptions(

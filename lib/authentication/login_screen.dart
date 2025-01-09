@@ -4,9 +4,7 @@ import 'package:chat/authentication/wrapper.dart';
 import 'package:chat/widgets/my_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:getwidget/components/button/gf_button.dart';
-import 'package:getwidget/getwidget.dart';
+
 import 'package:iconsax/iconsax.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -136,27 +134,27 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                SizedBox(
-                  height: 60,
-                  child: GFButton(
-                    position: GFPosition.start,
-                    enableFeedback: true,
-                    icon: Icon(FontAwesomeIcons.google),
-                    type: GFButtonType.solid,
-                    onPressed: () {
-                      Authservice().googlesignin();
-                    },
-                    text: "Sign in with Google",
-                    textStyle: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                    shape: GFButtonShape.pills,
-                    fullWidthButton: true,
-                    size: GFSize.LARGE,
-                  ),
-                ),
+                // SizedBox(
+                //   height: 60,
+                //   child: GFButton(
+                //     position: GFPosition.start,
+                //     enableFeedback: true,
+                //     icon: Icon(FontAwesomeIcons.google),
+                //     type: GFButtonType.solid,
+                //     onPressed: () {
+                //       Authservice().googlesignin();
+                //     },
+                //     text: "Sign in with Google",
+                //     textStyle: const TextStyle(
+                //       fontSize: 16,
+                //       fontWeight: FontWeight.bold,
+                //       color: Colors.white,
+                //     ),
+                //     shape: GFButtonShape.pills,
+                //     fullWidthButton: true,
+                //     size: GFSize.LARGE,
+                //   ),
+                // ),
                 const SizedBox(
                   height: 10,
                 ),
