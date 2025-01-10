@@ -29,7 +29,7 @@ class _CallState extends State<Call> {
     }).catchError((errorz) {
       print('Erroe while initializing remote rerndre : $errorz');
     });
-    signaling.openusermedia(_localrendrer, _remoterendeer);
+    signaling.openUserMedia(_localrendrer, _remoterendeer);
 
     signaling.onAddRemoteStream = ((stream) {
       _remoterendeer.srcObject = stream;
@@ -61,7 +61,7 @@ class _CallState extends State<Call> {
             children: [
               ElevatedButton(
                   onPressed: () {
-                    signaling.openusermedia(_localrendrer, _remoterendeer);
+                    signaling.openUserMedia(_localrendrer, _remoterendeer);
                     setState(() {});
                   },
                   child: const Icon(Icons.camera_alt)),
@@ -70,7 +70,7 @@ class _CallState extends State<Call> {
               ),
               ElevatedButton(
                   onPressed: () async {
-                    roomid = await signaling.createroom(_remoterendeer);
+                    roomid = await signaling.createRoom(_remoterendeer);
                     textEditingController.text = roomid!;
                     setState(() {});
                   },
@@ -82,9 +82,7 @@ class _CallState extends State<Call> {
                 onPressed: () {
                   // Add roomId
                   signaling.joinRoom(
-                    textEditingController.text.trim(),
-                    _remoterendeer,
-                  );
+                      textEditingController.text, _remoterendeer);
                 },
                 child: const Text("Join room"),
               ),
@@ -93,7 +91,7 @@ class _CallState extends State<Call> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    signaling.hangup(_localrendrer);
+                    signaling.hangUp(_localrendrer);
                     Navigator.pop(context);
                   },
                   child: const Icon(Icons.call_end))
