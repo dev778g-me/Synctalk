@@ -20,7 +20,7 @@ class Peopleprovider extends ChangeNotifier {
       final snapshot =
           await FirebaseFirestore.instance.collection('users').get();
       _users = snapshot.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
+        final data = doc.data();
         return Usermodel(
             id: doc.id,
             imageurl: data["imageurl"],
@@ -29,7 +29,7 @@ class Peopleprovider extends ChangeNotifier {
       }).toList();
       _users.removeWhere((users) => users.id == currentuserid);
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     } finally {
       _isloading = false;
       notifyListeners();

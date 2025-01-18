@@ -50,4 +50,6 @@ class Chathome extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> getlastmessage() async {}
 }

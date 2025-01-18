@@ -1,10 +1,12 @@
-import 'package:chat/api.dart';
-import 'package:chat/pages/calls/call.dart';
-import 'package:chat/provider/chat_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+
+import 'package:chat/api.dart';
+
+import 'package:chat/pages/calls/newcall.dart';
+import 'package:chat/provider/chat_service.dart';
 
 class ChatPage extends StatefulWidget {
   final String reciverId;
@@ -87,7 +89,7 @@ class _ChatPageState extends State<ChatPage> {
               icon: const Icon(Iconsax.video),
               onPressed: () {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Call()));
+                    context, MaterialPageRoute(builder: (context) => Callz()));
               },
             ),
             IconButton(icon: const Icon(Iconsax.call), onPressed: () {}),
@@ -128,7 +130,7 @@ class _ChatPageState extends State<ChatPage> {
                         (message, previousMessage, nextMessage) {
                       int hour = message.createdAt.hour;
                       int minute = message.createdAt.minute;
-
+                      bool isCurrentUser = message.user.id == currentuser!.id;
                       // Convert to 12-hour format
                       String ampm = hour >= 12 ? 'PM' : 'AM';
                       hour = hour % 12;
@@ -143,11 +145,19 @@ class _ChatPageState extends State<ChatPage> {
                       return RichText(
                           text: TextSpan(children: [
                         TextSpan(
-                          text: message.text,
-                        ),
+                            text: message.text,
+                            style: TextStyle(
+                                color: isCurrentUser
+                                    ? Colors.white
+                                    : Theme.of(context).colorScheme.shadow)),
                         TextSpan(
-                            style: const TextStyle(fontSize: 10),
-                            text: formattedTime)
+                          style: TextStyle(
+                              fontSize: 10,
+                              color: isCurrentUser
+                                  ? Colors.white
+                                  : Theme.of(context).colorScheme.shadow),
+                          text: formattedTime,
+                        )
                       ]));
                     },
                     messagePadding: const EdgeInsets.symmetric(
@@ -159,10 +169,7 @@ class _ChatPageState extends State<ChatPage> {
                             return const AlertDialog();
                           });
                     },
-                    textColor: Colors.black,
                     currentUserContainerColor: const Color(0xFF2962FF),
-                    currentUserTextColor:
-                        Theme.of(context).colorScheme.onSurface,
                     containerColor:
                         Theme.of(context).colorScheme.surfaceContainerLow,
                     showOtherUsersAvatar: true,

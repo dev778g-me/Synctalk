@@ -7,6 +7,7 @@ plugins {
 }
 
 android {
+    compileSdkVersion 33
     namespace = "com.example.chat"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
@@ -31,6 +32,11 @@ android {
         versionCode = flutter.versionCode
         versionName = flutter.versionName
         minSdkVersion 23
+         externalNativeBuild {
+        cmake {
+            cppFlags "-std=c++17"
+        }
+    }
         
         
 
@@ -41,6 +47,11 @@ android {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.debug
+
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+           
         }
     }
 }
