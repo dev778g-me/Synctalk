@@ -1,3 +1,5 @@
+import 'package:chat/pages/calls/pages/call.dart';
+import 'package:chat/pages/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +7,6 @@ import 'package:iconsax/iconsax.dart';
 
 import 'package:chat/api.dart';
 
-import 'package:chat/pages/calls/newcall.dart';
 import 'package:chat/provider/chat_service.dart';
 
 class ChatPage extends StatefulWidget {
@@ -88,8 +89,8 @@ class _ChatPageState extends State<ChatPage> {
             IconButton(
               icon: const Icon(Iconsax.video),
               onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Callz()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => VideoCallPage()));
               },
             ),
             IconButton(icon: const Icon(Iconsax.call), onPressed: () {}),

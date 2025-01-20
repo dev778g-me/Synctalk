@@ -56,14 +56,10 @@ dependencies:
   fade_shimmer: ^2.2.0
   dash_chat_2: ^0.0.21
   firebase_messaging: ^15.2.0
-  flutter_webrtc: ^0.12.1+hotfix.1
   animations: ^2.0.11
   get:
-  zego_uikit_prebuilt_call: ^4.16.21
-  zego_uikit_signaling_plugin: ^2.8.8
-  zego_express_engine: ^3.18.1
-  stream_video_flutter: ^0.7.1
-
+  flutter_webrtc: ^0.12.5+hotfix.2
+  
   
   
   
