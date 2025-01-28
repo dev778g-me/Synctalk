@@ -1,5 +1,4 @@
 import 'package:chat/api.dart';
-import 'package:chat/provider/chat_service.dart';
 
 class Lastmessage {
   final String currentId = Api.useruid;

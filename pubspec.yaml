@@ -75,6 +75,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
+  icons_launcher: ^3.0.0
  
 
 # For information on the generic Dart part of this file, see the
@@ -118,3 +119,14 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# Configuration for icons_launcher
+icons_launcher:
+  # Specifies the path to the app icon image.
+  image_path: "assets/synctalk.png"
+  # Configures platforms for which app icons should be generated.
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true

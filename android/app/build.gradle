@@ -13,12 +13,12 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
+        jvmTarget = JavaVersion.VERSION_17
     }
 
     defaultConfig {
@@ -61,6 +61,7 @@ flutter {
 }
 
 dependencies {
+    //classpath 'com.android.tools.build:gradle:7.3.0'
   // Import the Firebase BoM
   implementation platform('com.google.firebase:firebase-bom:33.5.1')
 

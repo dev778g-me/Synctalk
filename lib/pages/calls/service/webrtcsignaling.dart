@@ -126,10 +126,8 @@ class Webrtcsignaling {
     if (roomSnapshot.exists) {
       debugPrint(
           'Create Peerconnection with configuration : $_configurationServer');
-      _localStream = await navigator.mediaDevices.getUserMedia({
-        "audio": true,
-        "video": {"facingMode": "user"}
-      });
+      _localStream = await navigator.mediaDevices
+          .getUserMedia({"audio": true, "video": true});
       onLocalstream.call(_localStream);
 
       _rtcPeerConnection = await createPeerConnection(_configurationServer);
@@ -234,7 +232,6 @@ class Webrtcsignaling {
 
         onRemoveRemoteStream();
 
-        // ignore: unnecessary_null_comparison
         if (_rtcPeerConnection != null) {
           _rtcPeerConnection.close();
         }

@@ -3,6 +3,7 @@ import 'package:chat/provider/chathome.dart';
 import 'package:chat/provider/contactsprovider.dart';
 import 'package:chat/provider/friend_requestuid.dart';
 import 'package:chat/provider/peopleprovider.dart';
+import 'package:chat/provider/themeprovider.dart';
 import 'package:chat/provider/userdataprovider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,10 @@ void main() async {
         ChangeNotifierProvider(create: (_) => Contactsprovider()),
         ChangeNotifierProvider(create: (_) => Peopleprovider()),
         ChangeNotifierProvider(create: (_) => Chathome()),
-        ChangeNotifierProvider(create: (_) => FriendRequestuidprovider())
+        ChangeNotifierProvider(
+          create: (_) => FriendRequestuidprovider(),
+        ),
+        ChangeNotifierProvider(create: (_) => Themeprovider())
       ],
       child: const ChatApp(),
     ));
