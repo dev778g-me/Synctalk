@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 class StatusScreen extends StatefulWidget {
   const StatusScreen({super.key});
@@ -11,8 +12,13 @@ class _StatusScreenState extends State<StatusScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        label: const Text("Add Story"),
+        icon: const Icon(Iconsax.slider_horizontal_1),
+      ),
       appBar: AppBar(
-        title: Text("Status"),
+        title: const Text("Status"),
       ),
     );
   }

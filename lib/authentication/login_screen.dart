@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:chat/authentication/authservice.dart';
 import 'package:chat/authentication/register_page.dart';
 import 'package:chat/authentication/wrapper.dart';
@@ -96,6 +98,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 MyTextfield(
+                  action: TextInputAction.next,
+                  keyboardType: TextInputType.emailAddress,
                   labeltext: "Email",
                   controller: emailcontroller,
                   leading: const Icon(Iconsax.paperclip),
@@ -104,6 +108,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 30,
                 ),
                 MyTextfield(
+                  action: TextInputAction.done,
+                  keyboardType: TextInputType.visiblePassword,
+                  isShowing: true,
                   labeltext: "Password",
                   controller: passwordcontroller,
                   leading: const Icon(Iconsax.key),
