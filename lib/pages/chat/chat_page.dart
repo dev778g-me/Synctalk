@@ -1,3 +1,4 @@
+import 'package:chat/pages/calls/pages/call.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
@@ -86,7 +87,10 @@ class _ChatPageState extends State<ChatPage> {
           actions: [
             IconButton(
               icon: const Icon(Iconsax.video),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CallScreen()));
+              },
             ),
             IconButton(icon: const Icon(Iconsax.call), onPressed: () {}),
             IconButton(icon: const Icon(Iconsax.more), onPressed: () {}),
