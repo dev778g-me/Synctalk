@@ -59,6 +59,7 @@ dependencies:
   animations: ^2.0.11
   get:
   flutter_webrtc: ^0.12.5+hotfix.2
+  device_info_plus: ^11.3.0
   
   
   

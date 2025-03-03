@@ -1,3 +1,4 @@
+import 'package:chat/test.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -13,7 +14,9 @@ class _StatusScreenState extends State<StatusScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          requestStoragePermission(context);
+        },
         label: const Text("Add Story"),
         icon: const Icon(Iconsax.slider_horizontal_1),
       ),
