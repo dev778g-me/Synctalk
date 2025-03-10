@@ -37,6 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final userData = userProvider.userData;
     final friendshow = Provider.of<Chathome>(context);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        print('object');
+      }),
       appBar: AppBar(
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Iconsax.search_normal)),
