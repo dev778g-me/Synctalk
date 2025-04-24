@@ -5,6 +5,11 @@ Welcome to SyncTalk, a real-time messaging platform built with Flutter, Firebase
 
 ## 🚀 Features
 - **💬 Real-time Messaging:** Send and receive messages instantly via Firebase Firestore.
+- <p align="center">
+  <b>Lottie Animated Login Signup With Firebase</b><br>
+  <img src="https://github.com/dev778g-me/Synctalk/blob/9ddf609d50e01c7fc69280a28eead66570047b91/photo_2025-04-24_16-33-00.jpg" width="400" />
+  <img src="https://github.com/dev778g-me/Yappify/blob/a456c34eb04e5e3e5c224b391a515842032dc2be/Screenshots/Screenshot_20250327-174441_social.png" width="400" />
+</p>
 - **📞 Voice & Video Calling:(half done)** High-quality calls using Agora and WebRTC.
 - **🔒 End-to-End Encryption:** Ensuring privacy and security in conversations.
 - **📂 Media Sharing:(soon)** Share images, videos, and files within chats.
