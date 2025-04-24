@@ -16,9 +16,15 @@ Welcome to SyncTalk, a real-time messaging platform built with Flutter, Firebase
 ## 📷 Screenshots
 
 <p align="center">
-  <b>Lottie Animated Login Signup With Firebase</b><br>
+  <b>Login Signup With Firebase</b><br>
   <img src="https://github.com/dev778g-me/Synctalk/blob/d7f8b2c606cca34023c1ddad3f134a8561f3761b/photo_2025-04-24_16-33-20.jpg" width="400" />
   <img src="https://github.com/dev778g-me/Synctalk/blob/d7f8b2c606cca34023c1ddad3f134a8561f3761b/photo_2025-04-24_16-33-17.jpg" width="400" />
+</p>
+
+<p align="center">
+  <b>Add Details On FiresStoreDb and Firebase Storage </b><br>
+  <img src="https://github.com/dev778g-me/Synctalk/blob/fd05d6cb27bf017094532805dd4d1b46a5848a9c/photo_2025-04-24_16-33-27.jpg" width="400" />
+  <img src="https://github.com/dev778g-me/Synctalk/blob/fd05d6cb27bf017094532805dd4d1b46a5848a9c/photo_2025-04-24_16-33-35.jpg" width="400" />
 </p>
 
 ## 🛠️ Technologies Used
