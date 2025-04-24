@@ -12,7 +12,7 @@ Welcome to SyncTalk, a real-time messaging platform built with Flutter, Firebase
 - **🤝 Friend Requests:** Users can send and accept friend requests before chatting.
 
 - **✨ Hero Animations:** Smooth screen transitions using GetX.
-- **💾 Local & Cloud Storage:** Messages are stored both online (Firestore) and offline (device storage).
+- **💾 Cloud Storage:** Messages are stored both online (Firestore).
 
 ## 🛠️ Technologies Used
 - **Flutter** (State management with GetX and Provider)
